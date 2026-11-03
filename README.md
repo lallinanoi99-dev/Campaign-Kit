@@ -3,7 +3,7 @@
 **Your whole marketing campaign in one click** — positioning, personas, a 2-week content calendar with ready-to-post drafts, ad headlines and a launch checklist. Edit it, export it, and tick off milestones on **BOT Chain**.
 
 - Live site: `https://YOUR_DOMAIN` *(fill in after GitHub Pages deploy)*
-- Contract (BOT Chain mainnet, chain ID 677): `0x… (not deployed yet)` — `https://scan.botchain.ai/address/<MAINNET_CONTRACT_ADDRESS>`
+- Contract (BOT Chain mainnet, chain ID 677): [`0x4B5144Ef5Ad698b821540e525d4e4edDfDCb6b0F`](https://scan.botchain.ai/address/0x4B5144Ef5Ad698b821540e525d4e4edDfDCb6b0F)
 
 > Drafts — always review before posting. Drafts only use facts from your brief and mark anything that needs proof with **⚠ Add proof**.
 
@@ -102,7 +102,7 @@ event PlanStamped(id, owner, goal) · event MilestoneDone(id, index, done) · ev
 - No tokens, payments or admin. Drafts never go on-chain.
 
 ## Before launch — to-do
-- [ ] Deploy the contract (testnet → mainnet) and fill in `config.js` + this README
+- [x] Deploy the contract on mainnet and fill in `config.js` + this README
 - [ ] *(Optional, later)* Deploy the Worker, set the secret, KV and `ALLOWED_ORIGINS`, then set `WORKER_URL`
 - [ ] Custom domain on GitHub Pages; fill in `GITHUB_URL` and social links
 - [ ] Confirm the native-currency symbol for BOT Chain in `config.js` (used when MetaMask adds the network)

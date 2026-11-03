@@ -5,7 +5,7 @@ export const CONFIG = {
 
   // Paste the deployed CampaignKitPlans address here. Zero address = "not deployed yet" mode
   // (building, editing and exports still work; stamping is disabled).
-  MAINNET_CONTRACT_ADDRESS: "0x0000000000000000000000000000000000000000",
+  MAINNET_CONTRACT_ADDRESS: "0x4B5144Ef5Ad698b821540e525d4e4edDfDCb6b0F",
   TESTNET_CONTRACT_ADDRESS: "0x0000000000000000000000000000000000000000",
 
   // Your Cloudflare Worker with /kit/plan, /kit/rewrite and /extract-url.
@@ -15,7 +15,7 @@ export const CONFIG = {
   // The "Trusted by N campaigns" line on the home page only shows from this many stamped plans.
   MIN_COUNT_TO_SHOW: 10,
 
-  GITHUB_URL: "https://github.com/",
+  GITHUB_URL: "https://github.com/lallinanoi99-dev/Campaign-Kit",
   X_URL: "https://x.com/BOTChain_ai",
   INSTAGRAM_URL: "https://instagram.com/",
   LINKEDIN_URL: "https://linkedin.com/",
