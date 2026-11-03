@@ -2,7 +2,7 @@
 
 **Your whole marketing campaign in one click** — positioning, personas, a 2-week content calendar with ready-to-post drafts, ad headlines and a launch checklist. Edit it, export it, and tick off milestones on **BOT Chain**.
 
-- Live site: https://lallinanoi99-dev.github.io/Campaign-Kit/
+- Live site: https://campaignkit.my.id
 - Contract (BOT Chain mainnet, chain ID 677): [`0x4B5144Ef5Ad698b821540e525d4e4edDfDCb6b0F`](https://scan.botchain.ai/address/0x4B5144Ef5Ad698b821540e525d4e4edDfDCb6b0F)
 
 > Drafts — always review before posting. Drafts only use facts from your brief and mark anything that needs proof with **⚠ Add proof**.
