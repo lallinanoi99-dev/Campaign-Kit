@@ -1,6 +1,7 @@
 {
   "version": "0.0.1",
   "configurations": [
-    { "name": "campaign-kit", "runtimeExecutable": "node", "runtimeArgs": ["scripts/serve.mjs", "5173"], "port": 5173 }
+    { "name": "campaign-kit", "runtimeExecutable": "node", "runtimeArgs": ["scripts/serve.mjs", "5173"], "port": 5173 },
+    { "name": "campaign-kit-pages", "runtimeExecutable": "node", "runtimeArgs": ["scripts/serve.mjs", "5174", "/Campaign-Kit"], "port": 5174, "url": "http://localhost:5174" }
   ]
 }

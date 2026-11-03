@@ -6,7 +6,7 @@ import {
   todayISO, dayDate, isoOf, fmtDay, fmtLong, dayLabel, launchUnix, clipBytes, canonicalPlan,
   toCSV, toICS, allPostsText, sortedPosts, uid,
 } from "./kit.js";
-import { $, $$, esc, toast, modal, closeModal, confirmBox, confetti, download, loadScript, nav, isMobile, reduced } from "./ui.js";
+import { $, $$, esc, toast, modal, closeModal, confirmBox, confetti, download, loadScript, nav, isMobile, reduced, withBase, stripBase } from "./ui.js";
 import { wallet, onWallet, connect, ensureChain, hasMetaMask, short, explorerAddr, explorerTx, readContract, writeContract, txError, keccakText } from "./chain.js";
 import { exampleCampaign, EXAMPLE_IDS } from "./examples.js";
 
@@ -59,7 +59,7 @@ export function renderApp() {
   if (!root.dataset.bound) bindRoot();
   closeDrawer(true);
   const u = new URL(location.href);
-  const parts = u.pathname.split("/").filter(Boolean); // ["app", ...]
+  const parts = stripBase(u.pathname).split("/").filter(Boolean); // ["app", ...]
   const planId = parts[1] === "plan" ? parts[2] : u.searchParams.get("plan");
   document.body.classList.remove("has-bar");
 
@@ -267,7 +267,7 @@ async function build(useTemplate = false) {
   saveCampaign(c);
   try { localStorage.removeItem(DRAFT); } catch { /* ignore */ }
   S.c = c; S.tab = "positioning"; S.building = false;
-  history.replaceState(null, "", `/app?c=${c.id}`);
+  history.replaceState(null, "", withBase(`/app?c=${c.id}`));
   const flyFrom = $$(".build-steps li").map((li) => li.getBoundingClientRect());
   shell(renderKit);
   flyCards(flyFrom);
@@ -595,7 +595,7 @@ function commit({ now = false } = {}) {
   if (c.mode === "example" && !c.id) {
     c.id = uid(); c.mode = "template"; c.example = c.example || true; c.notes = [];
     saveCampaign(c);
-    history.replaceState(null, "", `/app?c=${c.id}`);
+    history.replaceState(null, "", withBase(`/app?c=${c.id}`));
     toast("Saved a copy to My campaigns ✓");
     renderSidebar();
     renderBanners();
@@ -952,7 +952,7 @@ async function stamp() {
     confetti(innerWidth / 2, innerHeight / 3);
     toast("Stamped on BOT Chain ✓");
     renderKit();
-    const link = location.origin + `/app/plan/${c.chain.id}`;
+    const link = location.origin + withBase(`/app/plan/${c.chain.id}`);
     modal(`<h3>Stamped on BOT Chain 🎉</h3><p>Your plan is #${c.chain.id}. Share the public progress link — it shows the name, goal, launch date and milestones ticked, never your drafts.</p>
       <div class="input" style="display:flex;align-items:center;margin:12px 0;word-break:break-all">${esc(link)}</div>
       <div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn primary" data-act="copy-link" autofocus>Copy link</button><a class="btn ghost" href="${explorerTx(tx.hash)}" target="_blank" rel="noopener">View transaction ↗</a></div>`);
@@ -1188,7 +1188,7 @@ async function onClick(e) {
     case "wallet": walletAction(); break;
     case "copy-link": {
       const id = b.dataset.id ?? S.c?.chain?.id;
-      copyText(location.origin + `/app/plan/${id}`, "Link copied");
+      copyText(location.origin + withBase(`/app/plan/${id}`), "Link copied");
       break;
     }
     case "change-date": changeDate(); break;

@@ -3,8 +3,14 @@
 <title>Campaign Kit</title>
 <script>
   // GitHub Pages SPA redirect: /app/plan/7?x=1 → /?p=/app/plan/7&q=x=1 (main.js restores the real URL).
+  // Works at the domain root and in a project subfolder (/Campaign-Kit/app/plan/7 → /Campaign-Kit/?p=/app/plan/7).
   (function (l) {
-    if (!/^\/app(\/|$)/.test(l.pathname)) { l.replace("/"); return; }
-    l.replace("/?p=" + encodeURIComponent(l.pathname) + (l.search ? "&q=" + encodeURIComponent(l.search.slice(1)) : "") + l.hash);
+    var m = l.pathname.match(/^(.*?)(\/app(?:\/.*)?)$/);
+    if (!m) {
+      var seg = /\.github\.io$/.test(l.hostname) ? l.pathname.split("/")[1] : "";
+      l.replace(seg ? "/" + seg + "/" : "/");
+      return;
+    }
+    l.replace(m[1] + "/?p=" + encodeURIComponent(m[2]) + (l.search ? "&q=" + encodeURIComponent(l.search.slice(1)) : "") + l.hash);
   })(window.location);
 </script>

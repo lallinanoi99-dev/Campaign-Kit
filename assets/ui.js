@@ -91,5 +91,13 @@ export function loadScript(src) {
   });
 }
 
+// Where the site lives: "" on a custom domain or localhost, "/Campaign-Kit" on user.github.io/Campaign-Kit/.
+// Worked out from this file's own URL, so nothing needs configuring.
+export const BASE = new URL("../", import.meta.url).pathname.replace(/\/$/, "");
+/** "/app?c=1" → "/Campaign-Kit/app?c=1" (only for site paths starting with "/") */
+export const withBase = (p) => (BASE && p.startsWith("/") && !p.startsWith("//") && !p.startsWith(BASE + "/") ? BASE + p : p);
+/** "/Campaign-Kit/app" → "/app" */
+export const stripBase = (p) => (BASE && (p === BASE || p.startsWith(BASE + "/")) ? p.slice(BASE.length) || "/" : p);
+
 // router hook set by main.js
 export const nav = { go: (url) => { location.href = url; } };

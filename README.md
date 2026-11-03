@@ -2,7 +2,7 @@
 
 **Your whole marketing campaign in one click** — positioning, personas, a 2-week content calendar with ready-to-post drafts, ad headlines and a launch checklist. Edit it, export it, and tick off milestones on **BOT Chain**.
 
-- Live site: `https://YOUR_DOMAIN` *(fill in after GitHub Pages deploy)*
+- Live site: https://lallinanoi99-dev.github.io/Campaign-Kit/
 - Contract (BOT Chain mainnet, chain ID 677): [`0x4B5144Ef5Ad698b821540e525d4e4edDfDCb6b0F`](https://scan.botchain.ai/address/0x4B5144Ef5Ad698b821540e525d4e4edDfDCb6b0F)
 
 > Drafts — always review before posting. Drafts only use facts from your brief and mark anything that needs proof with **⚠ Add proof**.
@@ -86,7 +86,9 @@ Set `ALLOWED_ORIGINS` in `wrangler.toml` to your site's origin(s) and paste the 
 - The browser re-validates the JSON; any missing part is re-requested on its own (`{ brief, part }`), then falls back to a template for that part.
 
 ### 3. Site (GitHub Pages)
-Push the repo, enable Pages (branch `main`, root), add your custom domain in Settings → Pages (this creates a `CNAME` file). The site uses absolute paths (`/assets/…`), so it needs a custom domain or a `user.github.io` root repo. Then fill in `GITHUB_URL` and socials in `config.js`.
+In Settings → Pages, set the source to branch `main`, folder `/ (root)`. The site works both at a domain root (a custom domain) and in a project subfolder (`user.github.io/Campaign-Kit/`). It works out its own base path from where `assets/main.js` loads, and `404.html` handles deep links like `/Campaign-Kit/app/plan/3`.
+
+To test the subfolder setup locally: `node scripts/serve.mjs 5174 /Campaign-Kit`, then open http://localhost:5174/Campaign-Kit/.
 
 ## Contract
 
@@ -104,6 +106,7 @@ event PlanStamped(id, owner, goal) · event MilestoneDone(id, index, done) · ev
 ## Before launch — to-do
 - [x] Deploy the contract on mainnet and fill in `config.js` + this README
 - [ ] *(Optional, later)* Deploy the Worker, set the secret, KV and `ALLOWED_ORIGINS`, then set `WORKER_URL`
-- [ ] Custom domain on GitHub Pages; fill in `GITHUB_URL` and social links
+- [x] GitHub Pages
+- [ ] Fill in social links in `config.js`
 - [ ] Confirm the native-currency symbol for BOT Chain in `config.js` (used when MetaMask adds the network)
 - [ ] Try a real kit end-to-end, then demo clip + X post tagging @BOTChain_ai

@@ -1,6 +1,6 @@
 // Router + shared chrome (navbar, search, footer, legal pages).
 import { CONFIG, NET, CONTRACT, IS_DEPLOYED } from "./config.js";
-import { $, $$, esc, modal, initModal, nav, reduced } from "./ui.js";
+import { $, $$, esc, modal, initModal, nav, reduced, BASE, withBase, stripBase } from "./ui.js";
 import { initWallet, rpcBlockNumber, short, explorerAddr } from "./chain.js";
 import { initSite, teardownSite } from "./site.js";
 import { renderApp, appSearchItems } from "./app.js";
@@ -11,20 +11,21 @@ import { renderApp, appSearchItems } from "./app.js";
   const p = u.searchParams.get("p");
   if (p && p.startsWith("/")) {
     const q = u.searchParams.get("q");
-    history.replaceState(null, "", p + (q ? "?" + q : "") + u.hash);
+    history.replaceState(null, "", withBase(p) + (q ? "?" + q : "") + u.hash);
   }
 })();
 
 let current = null;
 function route() {
-  const { pathname, searchParams, hash } = new URL(location.href);
+  const { searchParams, hash } = new URL(location.href);
+  const pathname = stripBase(location.pathname);
   const inApp = pathname.startsWith("/app") || searchParams.has("plan");
   document.body.classList.toggle("in-app", inApp);
   $("#site").hidden = inApp;
   $("#app").hidden = !inApp;
   $("#walletBtn").hidden = !inApp;
   $("#navCta").hidden = inApp;
-  $$(".app-links .nav-link").forEach((a) => a.classList.toggle("active", inApp && new URL(a.href).pathname === pathname && !(pathname === "/app" && searchParams.size)));
+  $$(".app-links .nav-link").forEach((a) => a.classList.toggle("active", inApp && stripBase(new URL(a.href).pathname) === pathname && !(pathname === "/app" && searchParams.size)));
   if (inApp) {
     if (current === "site") teardownSite();
     current = "app";
@@ -41,12 +42,12 @@ function route() {
 }
 
 nav.go = (url, { replace = false } = {}) => {
-  const u = new URL(url, location.href);
+  const u = new URL(withBase(url), location.href);
   if (u.origin !== location.origin) { location.href = url; return; }
   const samePage = u.pathname === location.pathname && u.search === location.search;
   if (replace) history.replaceState(null, "", u.pathname + u.search + u.hash);
   else history.pushState(null, "", u.pathname + u.search + u.hash);
-  if (samePage && u.hash && !u.pathname.startsWith("/app")) {
+  if (samePage && u.hash && !stripBase(u.pathname).startsWith("/app")) {
     const id = u.hash.slice(1);
     if (["terms", "privacy", "tips"].includes(id)) return showLegal(id);
     return document.getElementById(id)?.scrollIntoView({ behavior: reduced() ? "auto" : "smooth" });
@@ -60,8 +61,15 @@ document.addEventListener("click", (e) => {
   if (!a || e.metaKey || e.ctrlKey || e.shiftKey || a.target === "_blank") return;
   e.preventDefault();
   closeDropdown();
-  nav.go(a.getAttribute("href") + (a.hasAttribute("data-new") && a.getAttribute("href") === "/app" ? "?new=1" : ""));
+  const href = stripBase(a.getAttribute("href"));
+  nav.go(href + (a.hasAttribute("data-new") && href === "/app" ? "?new=1" : ""));
 });
+// On a subfolder (GitHub Pages project site) give every site link its real address, so "open in new tab" works too.
+if (BASE) {
+  const fix = (root) => root.querySelectorAll?.('a[href^="/"]:not([href^="//"])').forEach((a) => { const h = a.getAttribute("href"); if (!h.startsWith(BASE + "/")) a.setAttribute("href", BASE + h); });
+  fix(document);
+  new MutationObserver((ms) => ms.forEach((m) => m.addedNodes.forEach((n) => n.nodeType === 1 && (n.matches?.('a[href^="/"]') ? fix(n.parentNode || n) : fix(n))))).observe(document.body, { childList: true, subtree: true });
+}
 addEventListener("popstate", route);
 
 // ---------- navbar hover pill ----------
