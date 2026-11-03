@@ -1,0 +1,351 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Campaign Kit — your whole campaign in one click</title>
+<meta name="description" content="Positioning, personas, a 2-week content calendar with ready-to-post drafts, ad headlines and a launch checklist. Edit it, export it, and tick off milestones on BOT Chain.">
+<meta name="theme-color" content="#EAF4FF">
+<meta property="og:title" content="Campaign Kit">
+<meta property="og:description" content="Your whole marketing campaign in one click — stamped on BOT Chain.">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/styles.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.15.2/Sortable.min.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/6.13.4/ethers.umd.min.js" defer></script>
+<script type="module" src="/assets/main.js"></script>
+</head>
+<body>
+<!-- Buzz, the Campaign Kit mascot: a little sky-blue megaphone with eyes -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <linearGradient id="bz-cone" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#D3EDFF"/><stop offset="1" stop-color="#7CC4FF"/></linearGradient>
+  </defs>
+  <symbol id="buzz" viewBox="0 0 72 64">
+    <path d="M7 26h9v12H7a4 4 0 0 1-4-4v-4a4 4 0 0 1 4-4z" fill="#3B8FE0"/>
+    <path d="M14 40l4 14a3 3 0 0 0 5.6-1.7L21 41z" fill="#2C78C8"/>
+    <path d="M15 24 50 8c3-1.3 6 1 6 4.2v39.6c0 3.2-3 5.5-6 4.2L15 40z" fill="url(#bz-cone)"/>
+    <ellipse cx="55" cy="32" rx="5.5" ry="22" fill="#2D8CFF"/>
+    <ellipse cx="55.5" cy="32" rx="2.6" ry="15" fill="#0E2A4D" opacity=".85"/>
+    <g class="bz-eyes">
+      <ellipse cx="29" cy="28" rx="4.6" ry="5.4" fill="#fff"/><ellipse cx="41" cy="26" rx="4.6" ry="5.4" fill="#fff"/>
+      <circle class="bz-pupil" cx="30" cy="29" r="2.4" fill="#0E2A4D"/><circle class="bz-pupil" cx="42" cy="27" r="2.4" fill="#0E2A4D"/>
+    </g>
+    <ellipse cx="27" cy="37" rx="3" ry="1.8" fill="#FCB3BC" opacity=".9"/><ellipse cx="44" cy="35" rx="3" ry="1.8" fill="#FCB3BC" opacity=".9"/>
+    <path d="M32 38q4 3.4 8-.6" stroke="#0E2A4D" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+    <path d="M64 22q4 10 0 20M68 16q6 16 0 32" stroke="#FDD03D" stroke-width="2.6" fill="none" stroke-linecap="round"/>
+  </symbol>
+  <symbol id="i-x" viewBox="0 0 24 24"><path d="M17.8 3h3.1l-6.8 7.8L22 21h-6.2l-4.9-6.4L5.3 21H2.2l7.3-8.3L2 3h6.4l4.4 5.8zm-1.1 16.2h1.7L7.4 4.7H5.6z" fill="currentColor"/></symbol>
+  <symbol id="i-instagram" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="17.5" cy="6.5" r="1.3" fill="currentColor"/></symbol>
+  <symbol id="i-linkedin" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="3" fill="currentColor"/><path d="M7.5 10v7M7.5 7v.01M11 17v-4a2.5 2.5 0 0 1 5 0v4M11 10v7" stroke="#fff" stroke-width="2" stroke-linecap="round"/></symbol>
+  <symbol id="i-tiktok" viewBox="0 0 24 24"><path d="M14 3v11.5a3.5 3.5 0 1 1-3-3.46V8.1A6.5 6.5 0 1 0 17 14.5V8.6a6.8 6.8 0 0 0 4 1.3V6.8A4 4 0 0 1 17 3z" fill="currentColor"/></symbol>
+  <symbol id="i-email" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="3" fill="none" stroke="currentColor" stroke-width="2"/><path d="m4 7 8 6 8-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></symbol>
+  <symbol id="i-community" viewBox="0 0 24 24"><path d="M4 5h16v11H9l-5 4z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M8 10h8M8 13h5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5" fill="none" stroke="currentColor" stroke-width="2.2"/><path d="m16 16 4.5 4.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></symbol>
+  <symbol id="i-left" viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-right" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+</svg>
+
+<header class="nav" id="nav">
+  <a class="brand" href="/" data-link aria-label="Campaign Kit home">
+    <svg class="brand-mark" aria-hidden="true"><use href="#buzz"/></svg><span>Campaign Kit</span>
+  </a>
+  <nav class="nav-pill" id="navPill" aria-label="Main">
+    <span class="nav-hover" aria-hidden="true"></span>
+    <div class="site-links">
+      <div class="dd">
+        <button class="nav-link" id="featBtn" aria-expanded="false" aria-haspopup="true">Features <span class="caret">⌄</span></button>
+        <div class="dd-menu" id="featMenu" role="menu">
+          <a role="menuitem" href="/#plan" data-link>📅 <b>Plan</b><small>Positioning, personas, calendar</small></a>
+          <a role="menuitem" href="/#create" data-link>✏️ <b>Create</b><small>Edit, drag and export</small></a>
+          <a role="menuitem" href="/#proof" data-link>🛡 <b>Your plan</b><small>Private drafts, public progress</small></a>
+        </div>
+      </div>
+      <a class="nav-link" href="/#create" data-link>How it works</a>
+      <a class="nav-link" href="/#examples" data-link>Examples</a>
+      <a class="nav-link" href="/#faq" data-link>FAQ</a>
+    </div>
+    <div class="app-links">
+      <a class="nav-link" href="/" data-link>Home</a>
+      <a class="nav-link" href="/app" data-link data-new>New campaign</a>
+      <a class="nav-link" href="/app/campaigns" data-link>My campaigns</a>
+    </div>
+  </nav>
+  <div class="nav-right">
+    <button class="icon-btn" id="searchBtn" aria-label="Search"><svg><use href="#i-search"/></svg></button>
+    <button class="btn wallet-btn" id="walletBtn" hidden>Connect wallet</button>
+    <a class="btn primary" id="navCta" href="/app" data-link data-new>Start a campaign</a>
+  </div>
+</header>
+
+<div class="search-pop" id="searchPop" hidden>
+  <div class="search-card" role="dialog" aria-label="Search">
+    <input id="searchInput" type="search" placeholder="Search pages, help and your campaigns…" autocomplete="off">
+    <ul id="searchList"></ul>
+  </div>
+</div>
+
+<!-- ================= WEBSITE ================= -->
+<main id="site">
+  <!-- 1 · Hero -->
+  <section class="hero" data-bg="#EAF4FF">
+    <p class="eyebrow fade-up">Where launches get planned</p>
+    <h1 class="hero-title fade-up">Your home for campaigns, content, launches and more.</h1>
+    <div class="hero-ctas fade-up">
+      <a class="btn primary lg" href="/app" data-link data-new>Start a campaign</a>
+      <a class="btn white lg" href="/app?example=brewly" data-link>See an example kit</a>
+    </div>
+    <div class="hero-card" id="heroCard">
+      <div class="laptop">
+        <div class="laptop-screen">
+          <div class="mini-app">
+            <div class="mini-side"><i></i><i></i><i></i><i class="on"></i></div>
+            <div class="mini-main">
+              <div class="mini-tabs"><b>Calendar</b><span>Positioning</span><span>Personas</span><span>Ads</span><span>Checklist</span></div>
+              <div class="mini-grid" id="miniGrid"></div>
+            </div>
+          </div>
+        </div>
+        <div class="laptop-base"></div>
+      </div>
+      <div class="float-post fp1"><svg><use href="#i-x"/></svg><div><b>Day −3 · 09:00</b><p>3 things you'll be able to do on launch day…</p></div></div>
+      <div class="float-post fp2"><svg><use href="#i-instagram"/></svg><div><b>Launch day · 18:00</b><p>It's here ✨ Brewly is live — fresh beans every week.</p></div></div>
+      <div class="float-post fp3"><svg><use href="#i-linkedin"/></svg><div><b>Day +2 · 08:30</b><p>What we learned shipping in 14 days.</p></div></div>
+      <div class="float-chip fc1">✓ Stamped on BOT Chain</div>
+    </div>
+  </section>
+
+  <!-- 2 · Plan -->
+  <section class="reveal-sec" id="plan" data-bg="#EAF4FF">
+    <div class="sec-head">
+      <h2 class="sec-title">Planning tools for <span class="buzz-inline"><svg><use href="#buzz"/></svg></span> everyone</h2>
+      <a class="see-more" href="/app" data-link data-new>See more ↗</a>
+    </div>
+    <div class="sec-body">
+      <div class="row-head"><span class="chip-label">📅 Plan</span><div class="arrows"><button class="arrow" data-dir="-1" aria-label="Previous"><svg><use href="#i-left"/></svg></button><button class="arrow" data-dir="1" aria-label="Next"><svg><use href="#i-right"/></svg></button></div></div>
+      <div class="carousel">
+        <article class="fcard c-blue">
+          <h3>Your positioning in one line.</h3>
+          <div class="illu">
+            <div class="phone"><div class="phone-notch"></div>
+              <div class="ph-label">One-liner</div>
+              <div class="ph-line">Fresh beans at your door every week — for people who take their mornings seriously.</div>
+              <div class="ph-label">Key messages</div>
+              <div class="ph-pill">Roasted this week</div><div class="ph-pill">Skip anytime</div><div class="ph-pill warn">⚠ Add proof</div>
+            </div>
+          </div>
+        </article>
+        <article class="fcard c-black">
+          <h3>Meet the people you're talking to.</h3>
+          <div class="illu chips-float">
+            <span class="fchip" style="--x:8%;--y:12%">🧑‍🎓 Students</span>
+            <span class="fchip big" style="--x:38%;--y:30%">Personas</span>
+            <span class="fchip" style="--x:58%;--y:8%">☕ Coffee lovers</span>
+            <span class="fchip" style="--x:6%;--y:54%">💼 Founders</span>
+            <span class="fchip big y" style="--x:44%;--y:66%">Hashtags</span>
+            <span class="fchip" style="--x:12%;--y:80%">#LaunchDay</span>
+          </div>
+        </article>
+        <article class="fcard c-grey">
+          <h3>A 14-day calendar, done.</h3>
+          <div class="illu">
+            <div class="big-num"><span class="count" data-to="14">0</span> posts</div>
+            <div class="check-badge">✓</div>
+            <div class="tiles"><i></i><i class="hl"></i><i></i><i></i><i class="flip"></i><i></i><i></i></div>
+          </div>
+        </article>
+        <article class="fcard c-cream">
+          <h3>Ad headlines that test well.</h3>
+          <div class="illu stack">
+            <div class="adc a1"><small>Pain · 34/40</small><b>Tired of stale coffee?</b></div>
+            <div class="adc a2"><small>Benefit · 31/40</small><b>Roasted this week, at your door</b></div>
+            <div class="adc a3"><small>Social · 28/40</small><b>Why mornings got better</b></div>
+          </div>
+        </article>
+        <article class="fcard c-yellow">
+          <h3>A launch-day checklist.</h3>
+          <div class="illu">
+            <ul class="tick-list">
+              <li>Schedule all posts</li><li>Email your list</li><li>Publish the hero post</li><li>Reply to every comment</li>
+            </ul>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3 · Create -->
+  <section class="reveal-sec" id="create" data-bg="#EAF4FF">
+    <div class="sec-head">
+      <h2 class="sec-title">Write, Schedule, &amp; <span class="buzz-inline"><svg><use href="#buzz"/></svg></span> Ship</h2>
+      <a class="see-more" href="/app?example=studybuddy" data-link>See more ↗</a>
+    </div>
+    <div class="sec-body">
+      <div class="row-head"><span class="chip-label">✏️ Create</span><div class="arrows"><button class="arrow" data-dir="-1" aria-label="Previous"><svg><use href="#i-left"/></svg></button><button class="arrow" data-dir="1" aria-label="Next"><svg><use href="#i-right"/></svg></button></div></div>
+      <div class="carousel">
+        <article class="fcard g-blue">
+          <h3>One home for every post.</h3>
+          <div class="illu">
+            <div class="post-mock">
+              <div class="pm-head"><svg><use href="#i-x"/></svg><b>Day −1 · 09:00</b><span class="pm-count">212/280</span></div>
+              <p><b>Tomorrow.</b> StudyBuddy goes live — the study planner that fits around your lectures. Set a reminder 👀</p>
+              <div class="pm-tags">#StudyTok #UniLife</div>
+              <div class="pm-ai"><span>Shorter</span><span>Another version</span><span>Copy</span></div>
+            </div>
+          </div>
+        </article>
+        <article class="fcard g-indigo">
+          <h3>Drag, drop, done.</h3>
+          <div class="illu">
+            <div class="cal-mock">
+              <div class="cm-col"><small>Mon</small><i></i><i></i></div>
+              <div class="cm-col"><small>Tue</small><i></i></div>
+              <div class="cm-col launch"><small>Launch</small><i></i><i></i><i></i></div>
+              <div class="cm-col"><small>Thu</small><i class="drop-target"></i></div>
+              <div class="cm-drag"></div>
+            </div>
+          </div>
+        </article>
+        <article class="fcard g-coral">
+          <h3>Export anywhere — PDF, CSV, calendar.</h3>
+          <div class="illu files">
+            <span class="file f1">📄 campaign.pdf</span>
+            <span class="file f2">📊 posts.csv</span>
+            <span class="file f3">📅 launch.ics</span>
+            <span class="file f4">📋 Copied 16 posts</span>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4 · Proof (dark) -->
+  <section class="reveal-sec dark" id="proof" data-bg="#0E2A4D">
+    <div class="sec-head">
+      <h2 class="sec-title">Planned by you, proven <span class="buzz-inline"><svg><use href="#buzz"/></svg></span> on-chain</h2>
+      <a class="see-more" href="/#faq" data-link>See more ↗</a>
+    </div>
+    <div class="sec-body">
+      <div class="row-head"><span class="chip-label">🛡 Your plan</span><div class="arrows"><button class="arrow" data-dir="-1" aria-label="Previous"><svg><use href="#i-left"/></svg></button><button class="arrow" data-dir="1" aria-label="Next"><svg><use href="#i-right"/></svg></button></div></div>
+      <div class="carousel">
+        <article class="fcard c-cream">
+          <h3>Your plan lives in your browser. We never store it.</h3>
+          <div class="illu blobs"><i class="b1"></i><i class="b2"></i><i class="b3"></i><i class="b4"></i><span class="lock">🔒</span></div>
+        </article>
+        <article class="fcard c-yellow">
+          <h3>Tick milestones as you go.</h3>
+          <div class="illu">
+            <div class="ms-mock">
+              <div class="ms"><span class="ok">✓</span>Collect 2 customer quotes</div>
+              <div class="ms"><span class="ok">✓</span>Schedule all posts</div>
+              <div class="ms live"><span class="ok">✓</span>Email your list</div>
+              <div class="ms"><span></span>Thank everyone who shared</div>
+            </div>
+          </div>
+        </article>
+        <article class="fcard c-pink">
+          <h3>A public progress link anyone can open.</h3>
+          <div class="illu">
+            <div class="prog-mock">
+              <div class="pg-url">campaignkit.app/app/plan/7</div>
+              <b>Sunset Yoga — Event attendance</b>
+              <small>Launch · Sat, Nov 14</small>
+              <div class="pg-bar"><i></i></div>
+              <div class="pg-row"><span>9 of 14 milestones</span><span class="verified">✓ Verified</span></div>
+            </div>
+          </div>
+        </article>
+        <article class="fcard c-light">
+          <h3>Only a fingerprint goes on-chain.</h3>
+          <div class="illu">
+            <div class="fp-mock">
+              <div class="fp-icon">◎</div>
+              <code class="fp-hash">0x9f3c…a71e</code>
+              <div class="fp-rows"><span>title</span><span>goal</span><span>launch date</span><span>milestones</span></div>
+              <small>Drafts stay with you</small>
+            </div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5 · Examples -->
+  <section class="reveal-sec" id="examples" data-bg="#EAF4FF">
+    <div class="sec-head">
+      <h2 class="sec-title">Example kits, ready to <span class="buzz-inline"><svg><use href="#buzz"/></svg></span> open</h2>
+      <a class="see-more" href="/app?example=brewly" data-link>See more ↗</a>
+    </div>
+    <div class="sec-body">
+      <div class="row-head"><span class="chip-label">✨ Examples</span><div class="arrows"><button class="arrow" data-dir="-1" aria-label="Previous"><svg><use href="#i-left"/></svg></button><button class="arrow" data-dir="1" aria-label="Next"><svg><use href="#i-right"/></svg></button></div></div>
+      <div class="carousel" id="exampleCarousel"></div>
+    </div>
+  </section>
+
+  <!-- 6 · FAQ -->
+  <section class="faq-sec" id="faq" data-bg="#EAF4FF">
+    <h2 class="sec-title">Questions, <span class="buzz-inline"><svg><use href="#buzz"/></svg></span> answered</h2>
+    <div class="faq">
+      <details><summary>Is it free?</summary><p>Yes. Building a kit, editing it and exporting are free. Stamping a plan or ticking a milestone is a normal BOT Chain transaction, so you pay a tiny network fee from your own wallet. We don't charge anything on top.</p></details>
+      <details><summary>Will my drafts make things up?</summary><p>No. Drafts only use facts you put in the brief. They never invent numbers, prices, discounts, reviews or awards — anything that needs proof is marked <b>⚠ Add proof</b> so you can fill in the real thing. Always read your drafts before posting.</p></details>
+      <details><summary>Which channels?</summary><p>X, Instagram, LinkedIn, TikTok (as a video script), Email and Community (Discord or Telegram). Each channel gets a realistic number of posts per week, and launch day gets a hero post on every channel you pick.</p></details>
+      <details><summary>Can I post directly?</summary><p>Not yet. Export to the tools you already use: a CSV for schedulers like Buffer or Later, an .ics file with one calendar event per post, a pretty PDF report, or copy every post in one go.</p></details>
+      <details><summary>What goes on BOT Chain?</summary><p>Only a fingerprint (a hash) of your plan, its title, goal, launch date and the number of milestones. Your drafts, personas and checklist text stay in your browser. When you tick a milestone, only "milestone #3 is done" is recorded.</p></details>
+      <details><summary>Do I need a wallet?</summary><p>Only to stamp a plan and tick milestones. You can build, edit and export a whole kit without one. To stamp, connect MetaMask — we'll switch it to BOT Chain (chain ID 677) for you.</p></details>
+    </div>
+  </section>
+
+  <!-- 7 · CTA -->
+  <section class="cta-sec" id="cta" data-bg="#5CB8FF">
+    <p class="cta-count" id="ctaCount" hidden>Trusted by <b id="ctaN">0</b> campaigns so far. It's more than a calendar.</p>
+    <h2 class="cta-title">Get started.<br>Plan <span class="buzz-inline"><svg><use href="#buzz"/></svg></span> your launch.</h2>
+    <a class="btn white xl" href="/app" data-link data-new>✉ Start a campaign</a>
+  </section>
+</main>
+
+<!-- ================= APP ================= -->
+<main id="app" hidden></main>
+
+<!-- ================= FOOTER ================= -->
+<footer class="footer" id="footer">
+  <div class="f-card">
+    <div class="f-top">
+      <a class="f-logo" href="/" data-link aria-label="Campaign Kit home">
+        <span class="f-buzz-peek" aria-hidden="true"><svg><use href="#buzz"/></svg></span>
+        <svg class="f-mark" aria-hidden="true"><use href="#buzz"/></svg>
+        <span>Campaign Kit</span>
+      </a>
+      <div class="f-chain">
+        <a class="f-chain-main" href="https://botchain.ai" target="_blank" rel="noopener">
+          <span class="f-chain-text">Launched on BOT Chain</span>
+          <img class="f-chain-logo" src="/assets/botchain-mark.png" alt="BOT Chain" width="56" height="56">
+        </a>
+        <div class="f-chain-sub">
+          <span>Every campaign plan is stamped on BOT Chain · chain ID <b id="fChainId">677</b> · <code id="fAddr">not deployed yet</code></span>
+          <a class="pill-lav" id="fExplorer" href="https://scan.botchain.ai" target="_blank" rel="noopener">View on explorer ↗</a>
+        </div>
+      </div>
+    </div>
+    <div class="f-cols">
+      <div><h4>Product</h4><a href="/app" data-link data-new>Start a campaign</a><a href="/#examples" data-link>Example kits</a><a href="/app/campaigns" data-link>My campaigns</a></div>
+      <div><h4>Resources</h4><a href="/#create" data-link>How it works</a><a href="/#faq" data-link>FAQ</a><a href="/#tips" data-link id="tipsLink">Marketing tips</a></div>
+      <div><h4>Project</h4><a href="/#proof" data-link>About</a><a id="fGithub" href="https://github.com/" target="_blank" rel="noopener">GitHub</a></div>
+      <div><h4>Socials</h4><a id="fX" href="https://x.com/" target="_blank" rel="noopener">X</a><a id="fIg" href="https://instagram.com/" target="_blank" rel="noopener">Instagram</a><a id="fIn" href="https://linkedin.com/" target="_blank" rel="noopener">LinkedIn</a></div>
+    </div>
+    <div class="f-status" id="fStatus"><i></i><span>BOT Chain · checking…</span></div>
+  </div>
+  <div class="f-bottom">
+    <span>© Campaign Kit 2026</span>
+    <span class="f-legal"><a href="/#terms" data-link id="termsLink">Terms</a><a href="/#privacy" data-link id="privacyLink">Privacy</a><span>Drafts — always review before posting</span></span>
+  </div>
+</footer>
+
+<div class="modal" id="modal" hidden><div class="modal-card" role="dialog" aria-modal="true"><button class="modal-x" aria-label="Close">×</button><div id="modalBody"></div></div></div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<canvas id="confetti" aria-hidden="true"></canvas>
+</body>
+</html>

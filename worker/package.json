@@ -1,0 +1,16 @@
+{
+  "name": "campaign-kit-worker",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "latest",
+    "zod": "^3.25.0"
+  },
+  "devDependencies": {
+    "wrangler": "^4.0.0"
+  }
+}

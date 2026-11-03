@@ -1,0 +1,10 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>Campaign Kit</title>
+<script>
+  // GitHub Pages SPA redirect: /app/plan/7?x=1 → /?p=/app/plan/7&q=x=1 (main.js restores the real URL).
+  (function (l) {
+    if (!/^\/app(\/|$)/.test(l.pathname)) { l.replace("/"); return; }
+    l.replace("/?p=" + encodeURIComponent(l.pathname) + (l.search ? "&q=" + encodeURIComponent(l.search.slice(1)) : "") + l.hash);
+  })(window.location);
+</script>
